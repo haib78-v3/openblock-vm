@@ -2,7 +2,6 @@ const formatMessage = require('format-message');
 
 const ArgumentType = require('../../extension-support/argument-type');
 const BlockType = require('../../extension-support/block-type');
-const ProgramModeType = require('../../extension-support/program-mode-type');
 
 const ArduinoPeripheral = require('../common/arduino-peripheral');
 
@@ -59,33 +58,13 @@ const Level = {
     Low: 'LOW'
 };
 
-const Buadrate = {
-    B4800: '4800',
-    B9600: '9600',
-    B19200: '19200',
-    B38400: '38400',
-    B57600: '57600',
-    B76800: '76800',
-    B115200: '115200'
-};
+
 
 const Eol = {
     Warp: 'warp',
     NoWarp: 'noWarp'
 };
 
-const Mode = {
-    Input: 'INPUT',
-    Output: 'OUTPUT',
-    InputPullup: 'INPUT_PULLUP'
-};
-
-
-const DataType = {
-    Integer: 'INTEGER',
-    Decimal: 'DECIMAL',
-    String: 'STRING'
-};
 
 /**
  * Manage communication with a Arduino Uno peripheral over a OpenBlock Link client socket.
