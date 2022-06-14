@@ -4,10 +4,10 @@
   "description": "Virtual Machine for OpenBlock",
   "author": "Massachusetts Institute of Technology",
   "license": "BSD-3-Clause",
-  "homepage": "https://github.com/openblockcc/openblock-vm#readme",
+  "homepage": "https://github.com/haib78-v3/openblock-vm#readme",
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/openblockcc/openblock-vm.git"
+    "url": "git+ssh://git@github.com/haib78-v3/openblock-vm.git"
   },
   "main": "./dist/node/openblock-vm.js",
   "browser": "./src/index.js",
