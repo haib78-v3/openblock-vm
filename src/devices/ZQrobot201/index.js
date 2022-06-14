@@ -80,12 +80,6 @@ const Mode = {
     InputPullup: 'INPUT_PULLUP'
 };
 
-const InterrupMode = {
-    Rising: 'RISING',
-    Falling: 'FALLING',
-    Change: 'CHANGE',
-    Low: 'LOW'
-};
 
 const DataType = {
     Integer: 'INTEGER',
@@ -132,35 +126,6 @@ class OpenBlockZQrobot201Device {
             {
                 text: 'D9',
                 value: Pins.D9
-            }
-        ];
-    }
-
-    get MODE_MENU () {
-        return [
-            {
-                text: formatMessage({
-                    id: 'arduinoUno.modeMenu.input',
-                    default: 'input',
-                    description: 'label for input pin mode'
-                }),
-                value: Mode.Input
-            },
-            {
-                text: formatMessage({
-                    id: 'arduinoUno.modeMenu.output',
-                    default: 'output',
-                    description: 'label for output pin mode'
-                }),
-                value: Mode.Output
-            },
-            {
-                text: formatMessage({
-                    id: 'arduinoUno.modeMenu.inputPullup',
-                    default: 'input-pullup',
-                    description: 'label for input-pullup pin mode'
-                }),
-                value: Mode.InputPullup
             }
         ];
     }
@@ -236,68 +201,6 @@ class OpenBlockZQrobot201Device {
         ];
     }
 
-    get PWM_PINS_MENU () {
-        return [
-            {
-                text: '3',
-                value: Pins.D3
-            },
-            {
-                text: '5',
-                value: Pins.D5
-            },
-            {
-                text: '6',
-                value: Pins.D6
-            },
-            {
-                text: '9',
-                value: Pins.D9
-            },
-            {
-                text: '10',
-                value: Pins.D10
-            },
-            {
-                text: '11',
-                value: Pins.D11
-            }
-        ];
-    }
-
-    get BAUDTATE_MENU () {
-        return [
-            {
-                text: '4800',
-                value: Buadrate.B4800
-            },
-            {
-                text: '9600',
-                value: Buadrate.B9600
-            },
-            {
-                text: '19200',
-                value: Buadrate.B19200
-            },
-            {
-                text: '38400',
-                value: Buadrate.B38400
-            },
-            {
-                text: '57600',
-                value: Buadrate.B57600
-            },
-            {
-                text: '76800',
-                value: Buadrate.B76800
-            },
-            {
-                text: '115200',
-                value: Buadrate.B115200
-            }
-        ];
-    }
-
     get EOL_MENU () {
         return [
             {
@@ -319,34 +222,6 @@ class OpenBlockZQrobot201Device {
         ];
     }
 
-    get DATA_TYPE_MENU () {
-        return [
-            {
-                text: formatMessage({
-                    id: 'arduinoUno.dataTypeMenu.integer',
-                    default: 'integer',
-                    description: 'label for integer'
-                }),
-                value: DataType.Integer
-            },
-            {
-                text: formatMessage({
-                    id: 'arduinoUno.dataTypeMenu.decimal',
-                    default: 'decimal',
-                    description: 'label for decimal number'
-                }),
-                value: DataType.Decimal
-            },
-            {
-                text: formatMessage({
-                    id: 'arduinoUno.dataTypeMenu.string',
-                    default: 'string',
-                    description: 'label for string'
-                }),
-                value: DataType.String
-            }
-        ];
-    }
 
     /**
      * Construct a set of Arduino blocks.
