@@ -31,15 +31,15 @@ const builtinExtensions = {
 const builtinDevices = {
     ZQrobot201: () => require('../devices/ZQrobot201'),
     arduinoUno: () => require('../devices/arduinoUno'),
-    arduinoNano: () => require('../devices/arduinoNano'),
-    arduinoUnoUltra: () => require('../devices/arduinoUnoUltra'), // Add A6, A7 pins some customized board
-    arduinoLeonardo: () => require('../devices/arduinoLeonardo'),
-    arduinoMega2560: () => require('../devices/arduinoMega2560'),
-    arduinoEsp32: () => require('../devices/arduinoEsp32'),
-    arduinoEsp8266: () => require('../devices/arduinoEsp8266'),
-    microbit: () => require('../devices/microbit'),
-    makeyMakey: () => require('../devices/makeymakey'),
-    microbitV2: () => require('../devices/microbitV2'),
+    //arduinoNano: () => require('../devices/arduinoNano'),
+    //arduinoUnoUltra: () => require('../devices/arduinoUnoUltra'), // Add A6, A7 pins some customized board
+    //arduinoLeonardo: () => require('../devices/arduinoLeonardo'),
+    //arduinoMega2560: () => require('../devices/arduinoMega2560'),
+    //arduinoEsp32: () => require('../devices/arduinoEsp32'),
+    //arduinoEsp8266: () => require('../devices/arduinoEsp8266'),
+    //microbit: () => require('../devices/microbit'),
+    //makeyMakey: () => require('../devices/makeymakey'),
+    //microbitV2: () => require('../devices/microbitV2'),
     
 
     // todo transform these to device extension

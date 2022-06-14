@@ -40,26 +40,17 @@ const DIVECE_OPT = {
 };
 
 const Pins = {
-    D0: '0',
-    D1: '1',
     D2: '2',
     D3: '3',
-    D4: '4',
-    D5: '5',
-    D6: '6',
-    D7: '7',
-    D8: '8',
     D9: '9',
-    D10: '10',
-    D11: '11',
-    D12: '12',
-    D13: '13',
     A0: 'A0',
     A1: 'A1',
     A2: 'A2',
     A3: 'A3',
     A4: 'A4',
-    A5: 'A5'
+    A5: 'A5',
+    A6: 'A6',
+    A7: 'A7'
 };
 
 
@@ -131,84 +122,16 @@ class OpenBlockZQrobot201Device {
     get PINS_MENU () {
         return [
             {
-                text: '0',
-                value: Pins.D0
-            },
-            {
-                text: '1',
-                value: Pins.D1
-            },
-            {
-                text: '2',
+                text: 'D2',
                 value: Pins.D2
             },
             {
-                text: '3',
+                text: 'D3',
                 value: Pins.D3
             },
             {
-                text: '4',
-                value: Pins.D4
-            },
-            {
-                text: '5',
-                value: Pins.D5
-            },
-            {
-                text: '6',
-                value: Pins.D6
-            },
-            {
-                text: '7',
-                value: Pins.D7
-            },
-            {
-                text: '8',
-                value: Pins.D8
-            },
-            {
-                text: '9',
+                text: 'D9',
                 value: Pins.D9
-            },
-            {
-                text: '10',
-                value: Pins.D10
-            },
-            {
-                text: '11',
-                value: Pins.D11
-            },
-            {
-                text: '12',
-                value: Pins.D12
-            },
-            {
-                text: '13',
-                value: Pins.D13
-            },
-            {
-                text: 'A0',
-                value: Pins.A0
-            },
-            {
-                text: 'A1',
-                value: Pins.A1
-            },
-            {
-                text: 'A2',
-                value: Pins.A2
-            },
-            {
-                text: 'A3',
-                value: Pins.A3
-            },
-            {
-                text: 'A4',
-                value: Pins.A4
-            },
-            {
-                text: 'A5',
-                value: Pins.A5
             }
         ];
     }
@@ -267,6 +190,14 @@ class OpenBlockZQrobot201Device {
             {
                 text: 'A5',
                 value: Pins.A5
+            },
+            {
+                text: 'A6',
+                value: Pins.A6
+            },
+            {
+                text: 'A7',
+                value: Pins.A7
             }
         ];
     }
@@ -287,6 +218,19 @@ class OpenBlockZQrobot201Device {
                     default: 'low',
                     description: 'label for low level'
                 }),
+                value: Level.Low
+            }
+        ];
+    }
+
+    get LEVEL1_MENU () {
+        return [
+            {
+                text:'开启',
+                value: Level.High
+            },
+            {
+                text:'关闭',
                 value: Level.Low
             }
         ];
@@ -317,56 +261,6 @@ class OpenBlockZQrobot201Device {
             {
                 text: '11',
                 value: Pins.D11
-            }
-        ];
-    }
-
-    get INTERRUPT_PINS_MENU () {
-        return [
-            {
-                text: '2',
-                value: Pins.D2
-            },
-            {
-                text: '3',
-                value: Pins.D3
-            }
-        ];
-    }
-
-    get INTERRUP_MODE_MENU () {
-        return [
-            {
-                text: formatMessage({
-                    id: 'arduinoUno.InterrupModeMenu.risingEdge',
-                    default: 'rising edge',
-                    description: 'label for rising edge interrup'
-                }),
-                value: InterrupMode.Rising
-            },
-            {
-                text: formatMessage({
-                    id: 'arduinoUno.InterrupModeMenu.fallingEdge',
-                    default: 'falling edge',
-                    description: 'label for falling edge interrup'
-                }),
-                value: InterrupMode.Falling
-            },
-            {
-                text: formatMessage({
-                    id: 'arduinoUno.InterrupModeMenu.changeEdge',
-                    default: 'change edge',
-                    description: 'label for change edge interrup'
-                }),
-                value: InterrupMode.Change
-            },
-            {
-                text: formatMessage({
-                    id: 'arduinoUno.InterrupModeMenu.low',
-                    default: 'low',
-                    description: 'label for low interrup'
-                }),
-                value: InterrupMode.Low
             }
         ];
     }
@@ -477,50 +371,21 @@ class OpenBlockZQrobot201Device {
         return [
             {
                 id: 'pin',
-                name: formatMessage({
-                    id: 'arduinoUno.category.pins',
-                    default: 'Pins',
-                    description: 'The name of the arduino uno device pin category'
-                }),
+                name: "控制器",
                 color1: '#4C97FF',
                 color2: '#3373CC',
                 color3: '#3373CC',
 
                 blocks: [
                     {
-                        opcode: 'setPinMode',
-                        text: formatMessage({
-                            id: 'arduinoUno.pins.setPinMode',
-                            default: 'set pin [PIN] mode [MODE]',
-                            description: 'arduinoUno set pin mode'
-                        }),
+                        opcode: 'ZQ201setDigitalOutput',
+                        text:'设置端口[PIN]数字输出[LEVEL]',
                         blockType: BlockType.COMMAND,
                         arguments: {
                             PIN: {
                                 type: ArgumentType.STRING,
                                 menu: 'pins',
-                                defaultValue: Pins.D0
-                            },
-                            MODE: {
-                                type: ArgumentType.STRING,
-                                menu: 'mode',
-                                defaultValue: Mode.Input
-                            }
-                        }
-                    },
-                    {
-                        opcode: 'setDigitalOutput',
-                        text: formatMessage({
-                            id: 'arduinoUno.pins.setDigitalOutput',
-                            default: 'set digital pin [PIN] out [LEVEL]',
-                            description: 'arduinoUno set digital pin out'
-                        }),
-                        blockType: BlockType.COMMAND,
-                        arguments: {
-                            PIN: {
-                                type: ArgumentType.STRING,
-                                menu: 'pins',
-                                defaultValue: Pins.D0
+                                defaultValue: Pins.D2
                             },
                             LEVEL: {
                                 type: ArgumentType.STRING,
@@ -531,18 +396,14 @@ class OpenBlockZQrobot201Device {
                     },
                     {
 
-                        opcode: 'setPwmOutput',
-                        text: formatMessage({
-                            id: 'arduinoUno.pins.setPwmOutput',
-                            default: 'set pwm pin [PIN] out [OUT]',
-                            description: 'arduinoUno set pwm pin out'
-                        }),
+                        opcode: 'ZQ201setPwmOutput',
+                        text:'设置端口[PIN]模拟输出[OUT]',
                         blockType: BlockType.COMMAND,
                         arguments: {
                             PIN: {
                                 type: ArgumentType.STRING,
-                                menu: 'pwmPins',
-                                defaultValue: Pins.D3
+                                menu: 'pins',
+                                defaultValue: Pins.D2
                             },
                             OUT: {
                                 type: ArgumentType.UINT8_NUMBER,
@@ -550,14 +411,55 @@ class OpenBlockZQrobot201Device {
                             }
                         }
                     },
+                    {
+                        opcode: 'ZQ201setqibeng',
+                        text:'设置气泵端口[PIN]状态[LEVEL]',
+                        blockType: BlockType.COMMAND,
+                        arguments: {
+                            PIN: {
+                                type: ArgumentType.STRING,
+                                menu: 'pins',
+                                defaultValue: Pins.D9
+                            },
+                            LEVEL: {
+                                type: ArgumentType.STRING,
+                                menu: 'level1',
+                                defaultValue: Level.High
+                            }
+                        }
+                    },
+                    {
+                        opcode: 'ZQ201setbeep',
+                        text:'设置蜂鸣器状态[LEVEL]',
+                        blockType: BlockType.COMMAND,
+                        arguments: {
+                            LEVEL: {
+                                type: ArgumentType.STRING,
+                                menu: 'level1',
+                                defaultValue: Level.High
+                            }
+                        }
+                    },
+                    {
+                        opcode: 'ZQ201setServoOutput',
+                        text:'设置舵机端口 [PIN] 输出 [OUT]',
+                        blockType: BlockType.COMMAND,
+                        arguments: {
+                            PIN: {
+                                type: ArgumentType.STRING,
+                                menu: 'pins',
+                                defaultValue: Pins.D2
+                            },
+                            OUT: {
+                                type: ArgumentType.HALF_ANGLE,
+                                defaultValue: '90'
+                            }
+                        }
+                    },
                     '---',
                     {
-                        opcode: 'readDigitalPin',
-                        text: formatMessage({
-                            id: 'arduinoUno.pins.readDigitalPin',
-                            default: 'read digital pin [PIN]',
-                            description: 'arduinoUno read digital pin'
-                        }),
+                        opcode: 'ZQ201readDigitalPin',
+                        text:'读取数字端口[PIN]',
                         blockType: BlockType.BOOLEAN,
                         arguments: {
                             PIN: {
@@ -568,12 +470,8 @@ class OpenBlockZQrobot201Device {
                         }
                     },
                     {
-                        opcode: 'readAnalogPin',
-                        text: formatMessage({
-                            id: 'arduinoUno.pins.readAnalogPin',
-                            default: 'read analog pin [PIN]',
-                            description: 'arduinoUno read analog pin'
-                        }),
+                        opcode: 'ZQ201readAnalogPin',
+                        text:'读取模拟端口[PIN]',
                         blockType: BlockType.REPORTER,
                         arguments: {
                             PIN: {
@@ -583,196 +481,47 @@ class OpenBlockZQrobot201Device {
                             }
                         }
                     },
+                    {
+                        opcode: 'ZQ201run',
+                        text:'读取运行开关状态', 
+                        blockType: BlockType.BOOLEAN,
+                    },
+                    {
+                        opcode: 'ZQ201runningTime',
+                        text:'读取系统时间',
+                        blockType: BlockType.REPORTER,
+                        disableMonitor: true
+                    },
                     '---',
                     {
-
-                        opcode: 'setServoOutput',
-                        text: formatMessage({
-                            id: 'arduinoUno.pins.setServoOutput',
-                            default: 'set servo pin [PIN] out [OUT]',
-                            description: 'arduinoUno set servo pin out'
-                        }),
+                        opcode: 'ZQ201EEPROMupdate',
+                        text: 'EEPROM向地址[PIN]写数据[OUT]',
                         blockType: BlockType.COMMAND,
                         arguments: {
                             PIN: {
-                                type: ArgumentType.STRING,
-                                menu: 'pwmPins',
-                                defaultValue: Pins.D3
+                                type: ArgumentType.NUMBER,
+                                defaultValue: '0'
                             },
                             OUT: {
-                                type: ArgumentType.HALF_ANGLE,
-                                defaultValue: '90'
+                                type: ArgumentType.NUMBER,
+                                defaultValue: '0'
                             }
                         }
                     },
-                    '---',
                     {
-
-                        opcode: 'attachInterrupt',
-                        text: formatMessage({
-                            id: 'arduinoUno.pins.attachInterrupt',
-                            default: 'attach interrupt pin [PIN] mode [MODE] executes',
-                            description: 'arduinoUno attach interrupt'
-                        }),
-                        blockType: BlockType.CONDITIONAL,
+                        opcode: 'ZQ201EEPROMread',
+                        text:'EEPROM从地址[PIN]读数据', 
+                        blockType: BlockType.REPORTER,
                         arguments: {
                             PIN: {
-                                type: ArgumentType.STRING,
-                                menu: 'interruptPins',
-                                defaultValue: Pins.D3
-                            },
-                            MODE: {
-                                type: ArgumentType.STRING,
-                                menu: 'interruptMode',
-                                defaultValue: InterrupMode.Rising
+                                type: ArgumentType.NUMBER,
+                                defaultValue: '0'
                             }
-                        },
-                        programMode: [ProgramModeType.UPLOAD]
+                        }
                     },
                     {
-
-                        opcode: 'detachInterrupt',
-                        text: formatMessage({
-                            id: 'arduinoUno.pins.detachInterrupt',
-                            default: 'detach interrupt pin [PIN]',
-                            description: 'arduinoUno detach interrupt'
-                        }),
-                        blockType: BlockType.COMMAND,
-                        arguments: {
-                            PIN: {
-                                type: ArgumentType.STRING,
-                                menu: 'interruptPins',
-                                defaultValue: Pins.D3
-                            }
-                        },
-                        programMode: [ProgramModeType.UPLOAD]
-                    }
-                ],
-                menus: {
-                    pins: {
-                        items: this.PINS_MENU
-                    },
-                    mode: {
-                        items: this.MODE_MENU
-                    },
-                    analogPins: {
-                        items: this.ANALOG_PINS_MENU
-                    },
-                    level: {
-                        acceptReporters: true,
-                        items: this.LEVEL_MENU
-                    },
-                    pwmPins: {
-                        items: this.PWM_PINS_MENU
-                    },
-                    interruptPins: {
-                        items: this.INTERRUPT_PINS_MENU
-                    },
-                    interruptMode: {
-                        items: this.INTERRUP_MODE_MENU
-                    }
-                }
-            },
-            {
-                id: 'serial',
-                name: formatMessage({
-                    id: 'arduinoUno.category.serial',
-                    default: 'Serial',
-                    description: 'The name of the arduino uno device serial category'
-                }),
-                color1: '#9966FF',
-                color2: '#774DCB',
-                color3: '#774DCB',
-
-                blocks: [
-                    {
-                        opcode: 'serialBegin',
-                        text: formatMessage({
-                            id: 'arduinoUno.serial.serialBegin',
-                            default: 'serial begin baudrate [VALUE]',
-                            description: 'arduinoUno serial begin'
-                        }),
-                        blockType: BlockType.COMMAND,
-                        arguments: {
-                            VALUE: {
-                                type: ArgumentType.STRING,
-                                menu: 'baudrate',
-                                defaultValue: Buadrate.B9600
-                            }
-                        },
-                        programMode: [ProgramModeType.UPLOAD]
-                    },
-                    {
-                        opcode: 'serialPrint',
-                        text: formatMessage({
-                            id: 'arduinoUno.serial.serialPrint',
-                            default: 'serial print [VALUE] [EOL]',
-                            description: 'arduinoUno serial print'
-                        }),
-                        blockType: BlockType.COMMAND,
-                        arguments: {
-                            VALUE: {
-                                type: ArgumentType.STRING,
-                                defaultValue: 'Hello OpenBlock'
-                            },
-                            EOL: {
-                                type: ArgumentType.STRING,
-                                menu: 'eol',
-                                defaultValue: Eol.Warp
-                            }
-                        },
-                        programMode: [ProgramModeType.UPLOAD]
-                    },
-                    {
-                        opcode: 'serialAvailable',
-                        text: formatMessage({
-                            id: 'arduinoUno.serial.serialAvailable',
-                            default: 'serial available data length',
-                            description: 'arduinoUno serial available data length'
-                        }),
-                        blockType: BlockType.REPORTER,
-                        disableMonitor: true,
-                        programMode: [ProgramModeType.UPLOAD]
-                    },
-                    {
-                        opcode: 'serialReadData',
-                        text: formatMessage({
-                            id: 'arduinoUno.serial.serialReadData',
-                            default: 'serial read data',
-                            description: 'arduinoUno serial read data'
-                        }),
-                        blockType: BlockType.REPORTER,
-                        disableMonitor: true,
-                        programMode: [ProgramModeType.UPLOAD]
-                    }
-                ],
-                menus: {
-                    baudrate: {
-                        items: this.BAUDTATE_MENU
-                    },
-                    eol: {
-                        items: this.EOL_MENU
-                    }
-                }
-            },
-            {
-                id: 'data',
-                name: formatMessage({
-                    id: 'arduinoUno.category.data',
-                    default: 'Data',
-                    description: 'The name of the arduino uno device data category'
-                }),
-                color1: '#CF63CF',
-                color2: '#C94FC9',
-                color3: '#BD42BD',
-                blocks: [
-                    {
-                        opcode: 'dataMap',
-                        text: formatMessage({
-                            id: 'arduinoUno.data.dataMap',
-                            default: 'map [DATA] from ([ARG0], [ARG1]) to ([ARG2], [ARG3])',
-                            description: 'arduinoUno data map'
-                        }),
+                        opcode: 'ZQ201dataMap',
+                        text: '映射 [DATA] 从([ARG0], [ARG1]) 到 ([ARG2], [ARG3])',
                         blockType: BlockType.REPORTER,
                         arguments: {
                             DATA: {
@@ -796,90 +545,54 @@ class OpenBlockZQrobot201Device {
                                 defaultValue: '1000'
                             }
                         },
-                        programMode: [ProgramModeType.UPLOAD]
-                    },
-                    {
-                        opcode: 'dataConstrain',
-                        text: formatMessage({
-                            id: 'arduinoUno.data.dataConstrain',
-                            default: 'constrain [DATA] between ([ARG0], [ARG1])',
-                            description: 'arduinoUno data constrain'
-                        }),
-                        blockType: BlockType.REPORTER,
-                        arguments: {
-                            DATA: {
-                                type: ArgumentType.NUMBER,
-                                defaultValue: '50'
-                            },
-                            ARG0: {
-                                type: ArgumentType.NUMBER,
-                                defaultValue: '1'
-                            },
-                            ARG1: {
-                                type: ArgumentType.NUMBER,
-                                defaultValue: '100'
-                            }
-                        },
-                        programMode: [ProgramModeType.UPLOAD]
                     },
                     '---',
                     {
-                        opcode: 'dataConvert',
-                        text: formatMessage({
-                            id: 'arduinoUno.data.dataConvert',
-                            default: 'convert [DATA] to [TYPE]',
-                            description: 'arduinoUno data convert'
-                        }),
-                        blockType: BlockType.REPORTER,
+                        opcode: 'ZQ201serialPrint',
+                        text:'设置串口打印[VALUE] [EOL]',
+                        blockType: BlockType.COMMAND,
                         arguments: {
-                            DATA: {
+                            VALUE: {
                                 type: ArgumentType.STRING,
-                                defaultValue: '123'
+                                defaultValue: 'Hello Robot'
                             },
-                            TYPE: {
+                            EOL: {
                                 type: ArgumentType.STRING,
-                                menu: 'dataType',
-                                defaultValue: DataType.Integer
+                                menu: 'eol',
+                                defaultValue: Eol.Warp
                             }
                         },
-                        programMode: [ProgramModeType.UPLOAD]
                     },
                     {
-                        opcode: 'dataConvertASCIICharacter',
-                        text: formatMessage({
-                            id: 'arduinoUno.data.dataConvertASCIICharacter',
-                            default: 'convert [DATA] to ASCII character',
-                            description: 'arduinoUno data convert to ASCII character'
-                        }),
+                        opcode: 'ZQ201serialAvailable',
+                        text:'串口是否有数据可读',
                         blockType: BlockType.REPORTER,
-                        arguments: {
-                            DATA: {
-                                type: ArgumentType.NUMBER,
-                                defaultValue: '97'
-                            }
-                        },
-                        programMode: [ProgramModeType.UPLOAD]
+                        disableMonitor: true
                     },
                     {
-                        opcode: 'dataConvertASCIINumber',
-                        text: formatMessage({
-                            id: 'arduinoUno.data.dataConvertASCIINumber',
-                            default: 'convert [DATA] to ASCII nubmer',
-                            description: 'arduinoUno data convert to ASCII nubmer'
-                        }),
+                        opcode: 'ZQ201serialReadData',
+                        text:'读取串口数据',
                         blockType: BlockType.REPORTER,
-                        arguments: {
-                            DATA: {
-                                type: ArgumentType.STRING,
-                                defaultValue: 'a'
-                            }
-                        },
-                        programMode: [ProgramModeType.UPLOAD]
+                        disableMonitor: true
                     }
                 ],
                 menus: {
-                    dataType: {
-                        items: this.DATA_TYPE_MENU
+                    pins: {
+                        items: this.PINS_MENU
+                    },
+                    analogPins: {
+                        items: this.ANALOG_PINS_MENU
+                    },
+                    level: {
+                        acceptReporters: true,
+                        items: this.LEVEL_MENU
+                    },
+                    level1: {
+                        acceptReporters: true,
+                        items: this.LEVEL1_MENU
+                    },
+                    eol: {
+                        items: this.EOL_MENU
                     }
                 }
             }
