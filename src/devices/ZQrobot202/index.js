@@ -2,21 +2,21 @@ const formatMessage = require('format-message');
 
 const ArgumentType = require('../../extension-support/argument-type');
 const BlockType = require('../../extension-support/block-type');
+const ProgramModeType = require('../../extension-support/program-mode-type');
 
-const ArduinoPeripheral = require('../common/arduino-peripheral');
+const CommonPeripheral = require('../common/common-peripheral');
 
 /**
  * The list of USB device filters.
  * @readonly
  */
 const PNPID_LIST = [
-    // https://github.com/arduino/Arduino/blob/1.8.0/hardware/arduino/avr/boards.txt#L51-L58
-    'USB\\VID_2341&PID_0043',
-    'USB\\VID_2341&PID_0001',
-    'USB\\VID_2A03&PID_0043',
-    'USB\\VID_2341&PID_0243',
-    // For chinese clones that use CH340
-    'USB\\VID_1A86&PID_7523'
+    // CH340
+    'USB\\VID_1A86&PID_7523',
+    // CH9102
+    'USB\\VID_1A86&PID_55D4',
+    // CP2102
+    'USB\\VID_10C4&PID_EA60'
 ];
 
 /**
@@ -35,21 +35,24 @@ const SERIAL_CONFIG = {
  */
 const DIVECE_OPT = {
     type: 'arduino',
-    fqbn: 'ZQrobot:avr:atmega328pb',
+    fqbn: 'esp32:esp32:esp32:UploadSpeed=921600'
 };
 
 const Pins = {
-    D2: '2',
-    D3: '3',
-    D9: '9',
-    A0: 'A0',
-    A1: 'A1',
-    A2: 'A2',
-    A3: 'A3',
-    A4: 'A4',
-    A5: 'A5',
-    A6: 'A6',
-    A7: 'A7'
+    D0: '4',
+    D1: '5',
+    D2: '13',
+    D3: '23',
+    D4: '14',
+    A0: '15',
+    A1: '25',
+    A2: '26',
+    A3: '27',
+    A4: '32',
+    A5: '33',
+    A6: '34',
+    A7: '35',
+    A8: '36'
 };
 
 
@@ -65,11 +68,10 @@ const Eol = {
     NoWarp: 'noWarp'
 };
 
-
 /**
- * Manage communication with a Arduino Uno peripheral over a OpenBlock Link client socket.
+ * Manage communication with a Arduino esp32 peripheral over a OpenBlock Link client socket.
  */
-class ZQrobot201 extends ArduinoPeripheral{
+class ZQrobot202 extends CommonPeripheral{
     /**
      * Construct a Arduino communication object.
      * @param {Runtime} runtime - the OpenBlock runtime
@@ -82,18 +84,26 @@ class ZQrobot201 extends ArduinoPeripheral{
 }
 
 /**
- * OpenBlock blocks to interact with a Arduino Uno peripheral.
+ * OpenBlock blocks to interact with a Arduino esp32 peripheral.
  */
-class OpenBlockZQrobot201Device {
+class OpenBlockZQrobot202Device {
     /**
      * @return {string} - the ID of this extension.
      */
     static get DEVICE_ID () {
-        return 'ZQrobot201';
+        return 'ZQrobot202';
     }
 
     get PINS_MENU () {
         return [
+            {
+                text: 'D0',
+                value: Pins.D0
+            },
+            {
+                text: 'D1',
+                value: Pins.D1
+            },
             {
                 text: 'D2',
                 value: Pins.D2
@@ -103,8 +113,8 @@ class OpenBlockZQrobot201Device {
                 value: Pins.D3
             },
             {
-                text: 'D9',
-                value: Pins.D9
+                text: 'D4',
+                value: Pins.D4
             }
         ];
     }
@@ -142,26 +152,23 @@ class OpenBlockZQrobot201Device {
             {
                 text: 'A7',
                 value: Pins.A7
+            },
+            {
+                text: 'A8',
+                value: Pins.A8
             }
+            
         ];
     }
 
     get LEVEL_MENU () {
         return [
             {
-                text: formatMessage({
-                    id: 'arduinoUno.levelMenu.high',
-                    default: 'high',
-                    description: 'label for high level'
-                }),
+                text:'高',
                 value: Level.High
             },
             {
-                text: formatMessage({
-                    id: 'arduinoUno.levelMenu.low',
-                    default: 'low',
-                    description: 'label for low level'
-                }),
+                text:'低',
                 value: Level.Low
             }
         ];
@@ -183,19 +190,11 @@ class OpenBlockZQrobot201Device {
     get EOL_MENU () {
         return [
             {
-                text: formatMessage({
-                    id: 'arduinoUno.eolMenu.warp',
-                    default: 'warp',
-                    description: 'label for warp print'
-                }),
+                text: '换行',
                 value: Eol.Warp
             },
             {
-                text: formatMessage({
-                    id: 'arduinoUno.eolMenu.noWarp',
-                    default: 'no-warp',
-                    description: 'label for no warp print'
-                }),
+                text:'不换行',
                 value: Eol.NoWarp
             }
         ];
@@ -205,11 +204,11 @@ class OpenBlockZQrobot201Device {
         return[
             {
                 value: '0',
-                text: '长按'
+                text: '按下'
             },
             {
                 value: '1',
-                text: '点动'
+                text: '松开'
             }
         ];
     }
@@ -330,43 +329,6 @@ class OpenBlockZQrobot201Device {
         ];
     }
 
-    get Init_hd() {
-        return[
-            {
-                value: '0',
-                text: 'A0'
-            },
-            {
-                value: '1',
-                text: 'A1'
-            },
-            {
-                value: '2',
-                text: 'A2'
-            },
-            {
-                value: '3',
-                text: 'A3'
-            },
-            {
-                value: '4',
-                text: 'A4'
-            },
-            {
-                value: '5',
-                text: 'A5'
-            },
-            {
-                value: '6',
-                text: 'A6'
-            },
-            {
-                value: '7',
-                text: 'A7'
-            }
-        ]
-    }
-
     get What_line (){
         return[
             {
@@ -447,6 +409,11 @@ class OpenBlockZQrobot201Device {
             }
         ];
     }
+
+
+
+
+
     /**
      * Construct a set of Arduino blocks.
      * @param {Runtime} runtime - the OpenBlock runtime.
@@ -459,8 +426,9 @@ class OpenBlockZQrobot201Device {
          */
         this.runtime = runtime;
 
-        // Create a new Arduino uno peripheral instance
-        this._peripheral = new ZQrobot201(this.runtime, OpenBlockZQrobot201Device.DEVICE_ID, originalDeviceId);
+        // Create a new Arduino esp32 peripheral instance
+        this._peripheral = new ZQrobot202(this.runtime,
+            OpenBlockZQrobot202Device.DEVICE_ID, originalDeviceId);
     }
 
     /**
@@ -484,7 +452,7 @@ class OpenBlockZQrobot201Device {
                             PIN: {
                                 type: ArgumentType.STRING,
                                 menu: 'pins',
-                                defaultValue: Pins.D2
+                                defaultValue: Pins.D0
                             },
                             LEVEL: {
                                 type: ArgumentType.STRING,
@@ -495,14 +463,14 @@ class OpenBlockZQrobot201Device {
                     },
                     {
 
-                        opcode: 'ZQsetPwmOutput201',
+                        opcode: 'ZQsetPwmOutput',
                         text:'设置端口[PIN]模拟输出[OUT]',
                         blockType: BlockType.COMMAND,
                         arguments: {
                             PIN: {
                                 type: ArgumentType.STRING,
                                 menu: 'pins',
-                                defaultValue: Pins.D2
+                                defaultValue: Pins.D0
                             },
                             OUT: {
                                 type: ArgumentType.UINT8_NUMBER,
@@ -518,7 +486,7 @@ class OpenBlockZQrobot201Device {
                             PIN: {
                                 type: ArgumentType.STRING,
                                 menu: 'pins',
-                                defaultValue: Pins.D9
+                                defaultValue: Pins.D0
                             },
                             LEVEL: {
                                 type: ArgumentType.STRING,
@@ -528,7 +496,7 @@ class OpenBlockZQrobot201Device {
                         }
                     },
                     {
-                        opcode: 'ZQ202setbeep201',
+                        opcode: 'ZQ202setbeep',
                         text:'设置蜂鸣器状态[LEVEL]',
                         blockType: BlockType.COMMAND,
                         arguments: {
@@ -565,7 +533,7 @@ class OpenBlockZQrobot201Device {
                         }
                     },
                     {
-                        opcode: 'ZQrun201',
+                        opcode: 'ZQrun',
                         text:'读取运行开关状态', 
                         blockType: BlockType.BOOLEAN,
                     },
@@ -802,7 +770,7 @@ class OpenBlockZQrobot201Device {
     
                 blocks: [
                     {
-                        opcode: 'setwx201',
+                        opcode: 'setwx',
                         text:'设置无线遥控 ID[PIN]',
                         blockType: BlockType.COMMAND,
                         arguments: {
@@ -813,12 +781,7 @@ class OpenBlockZQrobot201Device {
                         }
                     },
                     {
-                        opcode: 'rxdata201',
-                        text:'读取2.4G无线数据',
-                        blockType: BlockType.COMMAND,
-                    },
-                    {
-                        opcode: 'Readkeys201',
+                        opcode: 'Readkeys',
                         text:'读取遥控按键 [PIN1] 值  状态 [PIN2] ',
                         blockType: BlockType.BOOLEAN,
                         arguments: {
@@ -833,7 +796,7 @@ class OpenBlockZQrobot201Device {
                         }
                     },
                     {
-                        opcode: 'ReadAnalog201',
+                        opcode: 'ReadAnalog',
                         text:'读取遥控摇杆 [PIN1] 值',
                         blockType: BlockType.REPORTER,
                         arguments: {
@@ -877,28 +840,28 @@ class OpenBlockZQrobot201Device {
                             },
                             PIN_1: {
                                 type: ArgumentType.STRING,
-                                menu: 'Init_hd',
-                                defaultValue: '0'
+                                menu: 'PINS',
+                                defaultValue: '15'
                             },
                             PIN_2: {
                                 type: ArgumentType.STRING,
-                                menu: 'Init_hd',
-                                defaultValue: '1'
+                                menu: 'PINS',
+                                defaultValue: '25'
                             },
                             PIN_3: {
                                 type: ArgumentType.STRING,
-                                menu: 'Init_hd',
-                                defaultValue: '2'
+                                menu: 'PINS',
+                                defaultValue: '26'
                             },
                             PIN_4: {
                                 type: ArgumentType.STRING,
-                                menu: 'Init_hd',
-                                defaultValue: '3'
+                                menu: 'PINS',
+                                defaultValue: '27'
                             },
                             PIN_5: {
                                 type: ArgumentType.STRING,
-                                menu: 'Init_hd',
-                                defaultValue: '4'
+                                menu: 'PINS',
+                                defaultValue: '32'
                             },
                             PIN_6: {
                                 type: ArgumentType.NUMBER,
@@ -980,7 +943,7 @@ class OpenBlockZQrobot201Device {
                             },
                             PIN2: {
                                 type: ArgumentType.STRING,
-                                menu: 'Init_hd',
+                                menu: 'PINS',
                                 defaultValue: '0'
                             },
                             PIN3: {
@@ -1048,7 +1011,7 @@ class OpenBlockZQrobot201Device {
                             },
                             PIN3: {
                                 type: ArgumentType.STRING,
-                                menu: 'Init_hd',
+                                menu: 'PINS',
                                 defaultValue: '0'
                             },
                             PIN4: {
@@ -1071,8 +1034,8 @@ class OpenBlockZQrobot201Device {
                     }
                 ],
                 menus: {
-                    Init_hd: {
-                        items: this.Init_hd
+                    PINS: {
+                        items: this.ANALOG_PINS_MENU
                     },
                     What_line: {
                         items: this.What_line
@@ -1153,4 +1116,4 @@ class OpenBlockZQrobot201Device {
     }
 }
 
-module.exports = OpenBlockZQrobot201Device;
+module.exports = OpenBlockZQrobot202Device;
