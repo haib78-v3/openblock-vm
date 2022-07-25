@@ -410,6 +410,69 @@ class OpenBlockZQrobot202Device {
         ];
     }
 
+    get RGB_ys (){
+        return[
+            {
+                value: '0x000000',
+                text: '关闭'
+            },
+            {
+                value: '0xff0000',
+                text: '红'
+            },
+            {
+                value: '0xFF7F00',
+                text: '橙'
+            },
+            {
+                value: '0xFFFF00',
+                text: '黄'
+            },
+            {
+                value: '0x00FF00',
+                text: '绿'
+            },
+            {
+                value: '0x00FFFF',
+                text: '青'
+            },
+            {
+                value: '0x0000FF',
+                text: '蓝'
+            },
+            {
+                value: '0x8B00FF',
+                text: '紫'
+            }
+        ];
+    }
+
+
+    get ZQ_yscgq (){
+        return[
+            {
+                value: '1',
+                text: 'R'
+            },
+            {
+                value: '2',
+                text: 'G'
+            },
+            {
+                value: '3',
+                text: 'B'
+            },
+            {
+                value: '4',
+                text: '色温'
+            },
+            {
+                value: '5',
+                text: '勒克斯(LUX)'
+            }
+        ];
+    }
+
 
 
 
@@ -463,7 +526,7 @@ class OpenBlockZQrobot202Device {
                     },
                     {
 
-                        opcode: 'ZQsetPwmOutput',
+                        opcode: 'ZQsetPwmOutput202',
                         text:'设置端口[PIN]模拟输出[OUT]',
                         blockType: BlockType.COMMAND,
                         arguments: {
@@ -496,7 +559,7 @@ class OpenBlockZQrobot202Device {
                         }
                     },
                     {
-                        opcode: 'ZQ202setbeep',
+                        opcode: 'ZQsetbeep202',
                         text:'设置蜂鸣器状态[LEVEL]',
                         blockType: BlockType.COMMAND,
                         arguments: {
@@ -533,7 +596,7 @@ class OpenBlockZQrobot202Device {
                         }
                     },
                     {
-                        opcode: 'ZQrun',
+                        opcode: 'ZQrun202',
                         text:'读取运行开关状态', 
                         blockType: BlockType.BOOLEAN,
                     },
@@ -639,7 +702,6 @@ class OpenBlockZQrobot202Device {
                         items: this.LEVEL_MENU
                     },
                     level1: {
-                        acceptReporters: true,
                         items: this.LEVEL1_MENU
                     },
                     eol: {
@@ -711,7 +773,7 @@ class OpenBlockZQrobot202Device {
                         }
                     },
                     {
-                        opcode: 'ZQsetServoOutput',
+                        opcode: 'ZQsetServoOutput202',
                         text:'设置舵机端口 [PIN] 输出 [OUT]',
                         blockType: BlockType.COMMAND,
                         arguments: {
@@ -727,7 +789,7 @@ class OpenBlockZQrobot202Device {
                         }
                     },
                     {
-                        opcode: 'setServo',
+                        opcode: 'setServo202',
                         text: '设置端口 [PIN] 舵机 [OUT]',
                         arguments: {
                             PIN: {
@@ -740,6 +802,18 @@ class OpenBlockZQrobot202Device {
                                 menu: 'fx',
                                 defaultValue: '0'
                             },
+                        }
+                    },
+                    {
+                        opcode: 'ZQsetServoRead202',
+                        text: '读取端口 [PIN] 舵机角度',
+                        blockType: BlockType.REPORTER,
+                        arguments: {
+                            PIN: {
+                                type: ArgumentType.STRING,
+                                menu: 'pins',
+                                defaultValue: Pins.D0
+                            }
                         }
                     }
                 ],
@@ -770,7 +844,7 @@ class OpenBlockZQrobot202Device {
     
                 blocks: [
                     {
-                        opcode: 'setwx',
+                        opcode: 'setwx202',
                         text:'设置无线遥控 ID[PIN]',
                         blockType: BlockType.COMMAND,
                         arguments: {
@@ -821,6 +895,123 @@ class OpenBlockZQrobot202Device {
                 }
             },
             {
+                id: 'RGBled',
+                name:'RGB彩灯',
+                color1: '#9966ff',
+                color2: '#7d53d1',
+                color3: '#7d53d1',
+    
+                blocks: [
+                    {
+                        opcode: 'RGBld',
+                        text:'设置RGB灯 端口[PIN] 亮度[PIN1]',
+                        blockType: BlockType.COMMAND,
+                        arguments: {
+                            PIN: {
+                                type: ArgumentType.STRING,
+                                menu: 'pins',
+                                defaultValue: Pins.D0
+                            },
+                            PIN1: {
+                                type: ArgumentType.NUMBER,
+                                defaultValue: "255"
+                            }
+                        }
+                    },
+                    {
+                        opcode: 'RGBLED',
+                        text:'设置RGB灯 端口[PIN] 颜色[PIN1]',
+                        blockType: BlockType.COMMAND,
+                        arguments: {
+                            PIN: {
+                                type: ArgumentType.STRING,
+                                menu: 'pins',
+                                defaultValue: Pins.D0
+                            },
+                            PIN1: {
+                                type: ArgumentType.COLOR
+                            }
+                        }
+                    },
+                    {
+                        opcode: 'RGBLED1',
+                        text:'设置RGB灯 端口[PIN] 颜色[PIN1]',
+                        blockType: BlockType.COMMAND,
+                        arguments: {
+                            PIN: {
+                                type: ArgumentType.STRING,
+                                menu: 'pins',
+                                defaultValue: Pins.D0
+                            },
+                            PIN1: {
+                                type: ArgumentType.STRING,
+                                menu: 'RGBys',
+                                defaultValue: '0x000000'
+                            }
+                        }
+                    },
+                    {
+                        opcode: 'RGBLED2',
+                        text:'设置RGB灯 端口[PIN] 颜色 R[PIN1] G[PIN2] B[PIN3] ',
+                        blockType: BlockType.COMMAND,
+                        arguments: {
+                            PIN: {
+                                type: ArgumentType.STRING,
+                                menu: 'pins',
+                                defaultValue: Pins.D0
+                            },
+                            PIN1: {
+                                type: ArgumentType.NUMBER,
+                                defaultValue: "255"
+                            },
+                            PIN2: {
+                                type: ArgumentType.NUMBER,
+                                defaultValue: "255"
+                            },
+                            PIN3: {
+                                type: ArgumentType.NUMBER,
+                                defaultValue: "255"
+                            }
+                        }
+                    }
+                ],
+                menus: {
+                    pins: {
+                        items: this.PINS_MENU
+                    },
+                    RGBys: {
+                        items: this.RGB_ys
+                    }
+                }
+            },
+            {
+                id: 'ZQCOLOR',
+                name:'颜色传感器',
+                color1: '#d65cd6',
+                color2: '#c048c0',
+                color3: '#c048c0',
+    
+                blocks: [
+                    {
+                        opcode: 'COLORcgq',
+                        text:'读取颜色传感器 [PIN1] 值',
+                        blockType: BlockType.REPORTER,
+                        arguments: {
+                            PIN1: {
+                                type: ArgumentType.STRING,
+                                menu: 'ZQ_yscgq',
+                                defaultValue: "1"
+                            }
+                        }
+                    }
+                ],
+                menus: {
+                    ZQ_yscgq: {
+                        items: this.ZQ_yscgq
+                    }
+                }
+            },
+            {
                 id: 'ZQpatrol',
                 name:'巡线模块',
                 color1: '#00979C',
@@ -831,39 +1022,39 @@ class OpenBlockZQrobot202Device {
                     {
                         opcode: 'InitMOTOR',
                         blockType: BlockType.COMMAND,
-                        text: '初始化巡线传感器 [PIN_7] 地面灰度 [PIN_1][PIN_2][PIN_3][PIN_4][PIN_5] 阀值[PIN_6]' ,
+                        text: '初始化巡线传感器 [PIN7] 地面灰度 [PIN1][PIN2][PIN3][PIN4][PIN5] 阀值[PIN6]' ,
                         arguments: {
-                            PIN_7: {
+                            PIN7: {
                                 type: ArgumentType.STRING,
                                 menu: 'What_line',
                                 defaultValue: '1'
                             },
-                            PIN_1: {
+                            PIN1: {
                                 type: ArgumentType.STRING,
                                 menu: 'PINS',
-                                defaultValue: '15'
+                                defaultValue:Pins.A0
                             },
-                            PIN_2: {
+                            PIN2: {
                                 type: ArgumentType.STRING,
                                 menu: 'PINS',
-                                defaultValue: '25'
+                                defaultValue:Pins.A1
                             },
-                            PIN_3: {
+                            PIN3: {
                                 type: ArgumentType.STRING,
                                 menu: 'PINS',
-                                defaultValue: '26'
+                                defaultValue:Pins.A2
                             },
-                            PIN_4: {
+                            PIN4: {
                                 type: ArgumentType.STRING,
                                 menu: 'PINS',
-                                defaultValue: '27'
+                                defaultValue: Pins.A3
                             },
-                            PIN_5: {
+                            PIN5: {
                                 type: ArgumentType.STRING,
                                 menu: 'PINS',
-                                defaultValue: '32'
+                                defaultValue: Pins.A4
                             },
-                            PIN_6: {
+                            PIN6: {
                                 type: ArgumentType.NUMBER,
                                 defaultValue: '0.5'
                             }
@@ -944,7 +1135,7 @@ class OpenBlockZQrobot202Device {
                             PIN2: {
                                 type: ArgumentType.STRING,
                                 menu: 'PINS',
-                                defaultValue: '0'
+                                defaultValue: Pins.A0
                             },
                             PIN3: {
                                 type: ArgumentType.STRING,
@@ -1012,7 +1203,7 @@ class OpenBlockZQrobot202Device {
                             PIN3: {
                                 type: ArgumentType.STRING,
                                 menu: 'PINS',
-                                defaultValue: '0'
+                                defaultValue: Pins.A0
                             },
                             PIN4: {
                                 type: ArgumentType.STRING,
