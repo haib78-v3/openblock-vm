@@ -370,11 +370,11 @@ class OpenBlockZQrobot201Device {
     get What_line (){
         return[
             {
-                value: '1',
+                value: '0',
                 text: '黑线'
             },
             {
-                value: '2',
+                value: '1',
                 text: '白线'
             }
         ];
@@ -930,7 +930,7 @@ class OpenBlockZQrobot201Device {
                         blockType: BlockType.COMMAND,
                         arguments: {
                             PIN: {
-                                type: ArgumentType.NUMBER,
+                                type: ArgumentType.STRING,
                                 defaultValue: "0000"
                             }
                         }
@@ -1113,7 +1113,7 @@ class OpenBlockZQrobot201Device {
                             PIN7: {
                                 type: ArgumentType.STRING,
                                 menu: 'What_line',
-                                defaultValue: '1'
+                                defaultValue: '0'
                             },
                             PIN1: {
                                 type: ArgumentType.STRING,

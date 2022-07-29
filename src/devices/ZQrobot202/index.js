@@ -332,11 +332,11 @@ class OpenBlockZQrobot202Device {
     get What_line (){
         return[
             {
-                value: '1',
+                value: '0',
                 text: '黑线'
             },
             {
-                value: '2',
+                value: '1',
                 text: '白线'
             }
         ];
@@ -608,7 +608,7 @@ class OpenBlockZQrobot202Device {
                     },
                     '---',
                     {
-                        opcode: 'ZQEEPROMupdate',
+                        opcode: 'ZQEEPROMupdate202',
                         text: 'EEPROM向地址[PIN]写数据[OUT]',
                         blockType: BlockType.COMMAND,
                         arguments: {
@@ -623,7 +623,7 @@ class OpenBlockZQrobot202Device {
                         }
                     },
                     {
-                        opcode: 'ZQEEPROMread',
+                        opcode: 'ZQEEPROMread202',
                         text:'EEPROM从地址[PIN]读数据', 
                         blockType: BlockType.REPORTER,
                         arguments: {
@@ -662,7 +662,7 @@ class OpenBlockZQrobot202Device {
                     },
                     '---',
                     {
-                        opcode: 'ZQserialPrint',
+                        opcode: 'ZQserialPrint202',
                         text:'设置串口打印[VALUE] [EOL]',
                         blockType: BlockType.COMMAND,
                         arguments: {
@@ -1027,7 +1027,7 @@ class OpenBlockZQrobot202Device {
                             PIN7: {
                                 type: ArgumentType.STRING,
                                 menu: 'What_line',
-                                defaultValue: '1'
+                                defaultValue: '0'
                             },
                             PIN1: {
                                 type: ArgumentType.STRING,
