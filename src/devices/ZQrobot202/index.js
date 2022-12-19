@@ -45,9 +45,9 @@ const Pins = {
     D3: '23',
     D4: '14',
     A0: '15',
-    A1: '25',
+    A1: '27',
     A2: '26',
-    A3: '27',
+    A3: '25',
     A4: '32',
     A5: '33',
     A6: '34',
@@ -662,7 +662,7 @@ class OpenBlockZQrobot202Device {
                     },
                     '---',
                     {
-                        opcode: 'ZQserialPrint202',
+                        opcode: 'ZQserialPrint',
                         text:'设置串口打印[VALUE] [EOL]',
                         blockType: BlockType.COMMAND,
                         arguments: {
